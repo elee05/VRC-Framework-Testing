@@ -7,8 +7,8 @@ If you don't have a CSV handy, see the `download_spx()` stub below - network
 access to Yahoo/Stooq is NOT available in this sandbox, so fetch that on your
 own machine and point --csv at the result. Any long daily-close series works
 (SPX, SPY, ^GSPC export from Yahoo Finance, stooq.com, FRED, etc).
-## Usage
-- python spx_hmm.py --csv spx.csv          # your own OHLC/close CSV
+### Usage
+- python spx_hmm.py --csv spx.csv          
 - python spx_hmm.py --n-states 3           # override state count
 - python spx_hmm.py --scan-states          # BIC scan over 2..6 states
 # Theory
