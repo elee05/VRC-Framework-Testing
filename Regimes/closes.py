@@ -1,20 +1,19 @@
-from ib_async import IB, Index
+from ib_insync import IB, Index
 import pandas as pd
 
 ib = IB()
 ib.connect('127.0.0.1', 7497, clientId=1)  # adjust host/port/clientId
 
+# SPX is an index, not a stock — must use Index contract
 contract = Index('SPX', 'CBOE', 'USD')
 ib.qualifyContracts(contract)
 
-# IBKR limits how much history you can pull per request.
-# For daily bars, '20 Y' is usually about the max in one call for indices.
 bars = ib.reqHistoricalData(
     contract,
-    endDateTime='',        # '' = now
-    durationStr='20 Y',    # how far back
+    endDateTime='',
+    durationStr='20 Y',
     barSizeSetting='1 day',
-    whatToShow='TRADES',   # indices often need 'TRADES' or 'MIDPOINT' depending on data sub
+    whatToShow='TRADES',   # try 'MIDPOINT' if this errors out
     useRTH=True,
     formatDate=1
 )
