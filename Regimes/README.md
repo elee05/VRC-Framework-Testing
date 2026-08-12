@@ -25,4 +25,4 @@ To validate the paper's initial claim, this folder looks at historical returns o
 - variation of Expected Maximization for finding unknown parameters of Hidden Markov Model. An implementation is written in the spx_hmm.py file alongside the hmmlearn implementation.
 
 #### E-Step
-- $\alpha_t(i) = $ probability of the observations up to time $t$ and being in state $i$ at time $t$ (computed left-to-right, recursively: alpha[t] = (alpha[t-1] @ A) * B[t]
+- $\alpha_t(i)$ = probability of the observations up to time $t$ and being in state $i$ at time $t$ (computed left-to-right, recursively: alpha[t] = (alpha[t-1] @ A) * B[t]
