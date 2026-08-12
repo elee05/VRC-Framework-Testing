@@ -20,3 +20,9 @@ To validate the paper's initial claim, this folder looks at historical returns o
 - The system is in some hidden state $s_t \in {0,1,2}$
 - Conditional on that state, the observed log-return is drawn from a Normal distribution: $r_t \sim N(\mu_{s_t},\sigma_{s_t}^2)$
 - The state itself evolves as a Markov chain: $A_{ij} = P(s_{t+1}=j | s_t = i)$
+
+### Baum-Welch Algorithm 
+- variation of Expected Maximization for finding unknown parameters of Hidden Markov Model. An implementation is written in the spx_hmm.py file alongside the hmmlearn implementation.
+
+#### E-Step
+- $\alpha_t(i) = $ probability of the observations up to time $t$ and being in state $i$ at time $t$ (computed left-to-right, recursively: alpha[t] = (alpha[t-1] @ A) * B[t]

@@ -32,19 +32,8 @@ def log_returns(prices: pd.Series) -> pd.Series:
     return np.log(prices / prices.shift(1)).dropna()
 
 
-def download_spx_stub():
-    """
-    Placeholder showing how you'd pull data on your own machine
-    (this sandbox has no network access to finance APIs).
 
-    import yfinance as yf
-    px = yf.download("^GSPC", start="2000-01-01")["Adj Close"]
-    px.to_csv("spx.csv")
-    """
-    raise NotImplementedError("Run this on your own machine, save to CSV, then use --csv")
-
-
-# hmmlearn version
+# hmmlearn
 
 def fit_hmmlearn(returns: pd.Series, n_states: int = 3, n_iter: int = 1000,
                   random_state: int = 42):
@@ -109,12 +98,11 @@ def scan_n_states(returns: pd.Series, k_range=range(2, 7)):
     return pd.DataFrame(rows)
 
 
-# From-scratch Gaussian HMM (Baum-Welch / EM)
+# From-scratch Gaussian HMM (Baum-Welch / EM)(for personal understanding)
 class GaussianHMMScratch:
     """
     Minimal 1-D Gaussian HMM fit via EM (Baum-Welch), for pedagogical use.
-    Not optimized for speed/numerical robustness the way hmmlearn is -
-    for real work prefer fit_hmmlearn().
+    Not optimized for speed/numerical robustness the way hmmlearn is
     """
 
     def __init__(self, n_states=3, n_iter=200, tol=1e-6, random_state=42):
