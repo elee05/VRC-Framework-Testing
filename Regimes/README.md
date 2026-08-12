@@ -27,3 +27,4 @@ To validate the paper's initial claim, this folder looks at historical returns o
 #### E-Step
 given current parameter guesses, compute two things for every timestep:
 - $\alpha_t(i)$ = probability of the observations up to time $t$ and being in state $i$ at time $t$ (computed left-to-right, recursively: alpha[t] = (alpha[t-1] @ A) * B[t]
+- $\beta_t(i)$ = probability of all future observations given state $i$ at time $t$ (computed right-to-left)
