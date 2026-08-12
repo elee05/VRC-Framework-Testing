@@ -1,24 +1,4 @@
-"""
-3-state Gaussian HMM on SPX daily log-returns (2000-present)
-==============================================================
 
-Two implementations are provided:
-  1. `fit_hmmlearn()`   - production-grade, uses the `hmmlearn` library
-  2. `GaussianHMMScratch` - a from-scratch Baum-Welch/EM implementation,
-     useful for understanding the mechanics or if you can't install hmmlearn.
-
-Usage
------
-    python spx_hmm.py --csv spx.csv          # your own OHLC/close CSV
-    python spx_hmm.py --n-states 3           # override state count
-    python spx_hmm.py --scan-states          # BIC scan over 2..6 states
-
-Input CSV format expected: two columns, `Date` and `Close` (or `Adj Close`).
-If you don't have a CSV handy, see the `download_spx()` stub below - network
-access to Yahoo/Stooq is NOT available in this sandbox, so fetch that on your
-own machine and point --csv at the result. Any long daily-close series works
-(SPX, SPY, ^GSPC export from Yahoo Finance, stooq.com, FRED, etc).
-"""
 
 import argparse
 import numpy as np
@@ -28,9 +8,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 
-# ----------------------------------------------------------------------
-# 1. Data loading / prep
-# ----------------------------------------------------------------------
+# Data loading / prep
 
 def load_prices(csv_path: str, start: str = "2000-01-01") -> pd.Series:
     df = pd.read_csv(csv_path)
@@ -66,9 +44,7 @@ def download_spx_stub():
     raise NotImplementedError("Run this on your own machine, save to CSV, then use --csv")
 
 
-# ----------------------------------------------------------------------
-# 2. hmmlearn version
-# ----------------------------------------------------------------------
+# hmmlearn version
 
 def fit_hmmlearn(returns: pd.Series, n_states: int = 3, n_iter: int = 1000,
                   random_state: int = 42):
@@ -133,10 +109,7 @@ def scan_n_states(returns: pd.Series, k_range=range(2, 7)):
     return pd.DataFrame(rows)
 
 
-# ----------------------------------------------------------------------
-# 3. From-scratch Gaussian HMM (Baum-Welch / EM)
-# ----------------------------------------------------------------------
-
+# From-scratch Gaussian HMM (Baum-Welch / EM)
 class GaussianHMMScratch:
     """
     Minimal 1-D Gaussian HMM fit via EM (Baum-Welch), for pedagogical use.
@@ -264,10 +237,7 @@ class GaussianHMMScratch:
         return states
 
 
-# ----------------------------------------------------------------------
-# 4. Plotting
-# ----------------------------------------------------------------------
-
+# Plotting
 def plot_regimes(prices, returns, states, out_path="spx_hmm_regimes.png", n_states=3):
     aligned_prices = prices.reindex(returns.index)
     colors = plt.cm.viridis(np.linspace(0, 1, n_states))
@@ -293,10 +263,6 @@ def plot_regimes(prices, returns, states, out_path="spx_hmm_regimes.png", n_stat
     fig.savefig(out_path, dpi=130)
     print(f"Saved plot -> {out_path}")
 
-
-# ----------------------------------------------------------------------
-# 5. Main
-# ----------------------------------------------------------------------
 
 def main():
     ap = argparse.ArgumentParser()
