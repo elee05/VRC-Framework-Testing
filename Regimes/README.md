@@ -25,7 +25,7 @@ given current parameter guesses, compute two things for every timestep:
 - $\sigma_i^2 = \frac{\displaystyle\sum_{t=1}^{T} \gamma_t(i)\,\left(r_t - \mu_i\right)^2}{\displaystyle\sum_{t=1}^{T} \gamma_t(i)}$
 
 # This Folder
-- Two implementations: hmmlearn library and from-scratch Baum-Welch/EM implementation
+- Two implementations: hmmlearn library and from-scratch (Baum-Welch/EM)(https://en.wikipedia.org/wiki/Baum%E2%80%93Welch_algorithm) implementation
 - Learns 
     - each intitial state's probability, $\pi$
     - transition matrix, A
