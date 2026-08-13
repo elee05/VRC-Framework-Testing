@@ -1,5 +1,6 @@
 # Regime Detection
 The paper assumes that the market exists in 1 of 3 volatility regimes. While there is a general consensus that the market will lie in about 3 ranges of volatility, the paper provides no evidence for the exact numbers it uses: 10.2%, 22.1%, 44.8%
+- This folder will also as a testing ground for general Hidden Markov Model algorithms
 
 # Hidden Markov Model Theory
 To validate the paper's initial claim, this folder looks at historical returns of the SPX(visible states) and identifies 3 levels of volatiliy(hidden states) 
