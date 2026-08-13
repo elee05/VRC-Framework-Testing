@@ -58,5 +58,43 @@ def rolling_gk_realized_variance(df, M, price_cols=('Open','High','Low','Close')
     # rolling mean of the M preceding bars (excludes current bar k, per your ℓ_k formula)
     rolling_var = per_bar_var.shift(1).rolling(window=M).mean()
     return rolling_var
-def rol_vol():
-    pass
+
+def rolling_vol_likelihood(sigma_hat_sq, sigma_i_sq, M):
+    """
+    Rolling volatility likelihood term f_chi((M-1)*sigma_hat^2 / sigma_i^2; M-1)
+
+    Parameters
+    ----------
+    sigma_hat_sq : float or np.ndarray
+        Realized variance over the M preceding periods (Garman-Klass estimate)
+    sigma_i_sq : float
+        Hypothesized variance under regime i
+    M : int
+        Window length (number of preceding periods)
+
+    Returns
+    -------
+    float or np.ndarray
+        Chi-squared density value(s) -- the likelihood weight
+    """
+    dof = M - 1
+    x = (dof * sigma_hat_sq) / sigma_i_sq
+    return chi2.pdf(x, df=dof)
+
+# chi function, need
+#   estimated garma klass vol
+#   expected vol
+#   time period of estimated vol
+
+# Notes
+# Zero/negative range guard. If High == Low (illiquid bar, or bad data), ln(H/L)=0, which is fine. But if data has 
+# H<L or non-positive prices, you'll get NaNs/errors 
+
+# Annualization. If you want annualized vol rather than per-period variance, multiply by the number of periods per year before taking the square root: 
+# 𝜎^ann = sqrt(\hat{sigma^2_k} * periods/year). Whether you need this depends on how sigma_i(regime vol) is scaled in the rest of  VRC model 
+# — they need to be on the same time basis for the ratio (M-1)\hat{sigma^2_k}/sigma^2_i to make sense.
+
+# Overnight gaps. Vanilla GK assumes no overnight jump (i.e., that O_t trades continuously from C_{t-1}). 
+# If using daily bars with meaningful overnight gaps (equities, not FX), consider the Yang-Zhang extension, which adds an overnight-return term and is robust to opening jumps
+
+# Window alignment with M−1 dof. .shift(1) above excludes the current bar from the rolling window, matching "preceding periods. 
