@@ -15,3 +15,6 @@
 - Compute entropy: measure how spread-out/uncertain that distribution is (entropy — high when probabilities are spread across regimes, low when concentrated on one).
 - Resample: if too few particles are carrying meaningful weight (a common particle-filter degeneracy problem — most particles' weights collapse toward zero over time), redraw a fresh set of particles concentrated where the current weight actually is. This keeps the filter numerically healthy.
 - Broadcast: send the updated regime probabilities out to feed the bandwidth formula and Kelly sizing calculations elsewhere in the system.
+
+### File Structure
+- generator.py - simulates paths based on preset volatilities for testing
