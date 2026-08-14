@@ -10,7 +10,7 @@ import pandas as pd
 
 
 
-# return likelihood commonent(how well do the observed returns correspond to the supposed regime)
+# ! return likelihood commonent(how well do the observed returns correspond to the supposed regime)
 # \phi(r_k - (m_i - 1/2 \sigma^2_i)\delta / \sigma_i \sqrt{\delta})
 #   r_k = observed log return
 #   (m_i - 1/2 \sigma^2_i) = expected return; m_i = expected return, \sigma^2_i  =expected variance
@@ -24,7 +24,7 @@ def return_likelihood(r, mu_i, sigma_i, dt):
 
 
 
-# rolling volatility likelihood component:
+# ! rolling volatility likelihood component:
 # how consistent the recent realized volatility (measured via the Garman-Klass estimator )
 # is with each regime's volatility level (a chi-squared comparison, which is the right distribution for a variance estimate).
 # Garman-Klass estimator uses high/low/open/close prices rather than just closing prices) 
@@ -102,3 +102,12 @@ def rolling_vol_likelihood(sigma_hat_sq, sigma_i_sq, M):
 # If using daily bars with meaningful overnight gaps (equities, not FX), consider the Yang-Zhang extension, which adds an overnight-return term and is robust to opening jumps
 
 # Window alignment with M−1 dof. .shift(1) above excludes the current bar from the rolling window, matching "preceding periods. 
+
+
+
+
+# ! Options-surface likelihood 
+# compares the actual observed ATM implied vol and skew in the options market to what PRISM's own pricing model (from Section 3's PDE system) 
+# predicts those should look like if the market were in each given regime. 
+# If real observed IV/skew closely matches what "crisis regime" would imply, 
+# that regime gets more weight(even before the underlying price has actually moved dramatically.)
