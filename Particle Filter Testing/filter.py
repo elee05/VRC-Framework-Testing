@@ -59,6 +59,10 @@ def rolling_gk_realized_variance(df, M, price_cols=('Open','High','Low','Close')
     rolling_var = per_bar_var.shift(1).rolling(window=M).mean()
     return rolling_var
 
+# def rolling_var_for_input(df, M, price_cols=('Open','High','Low','Close')):
+
+
+
 def rolling_vol_likelihood(sigma_hat_sq, sigma_i_sq, M):
     """
     Rolling volatility likelihood term f_chi((M-1)*sigma_hat^2 / sigma_i^2; M-1)
