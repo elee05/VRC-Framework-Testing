@@ -1,6 +1,8 @@
 from scipy.stats import norm, chi2
 import numpy as np
 import pandas as pd
+from vollib.black_scholes import black_scholes
+from vollib.black_scholes.implied_volatility import implied_volatility
 
 # implementation of likelihood score for each particle using 3 components
 
@@ -111,3 +113,26 @@ def rolling_vol_likelihood(sigma_hat_sq, sigma_i_sq, M):
 # predicts those should look like if the market were in each given regime. 
 # If real observed IV/skew closely matches what "crisis regime" would imply, 
 # that regime gets more weight(even before the underlying price has actually moved dramatically.)
+
+# Solve PDE (11) per regime → get model (ATM vol, skew) fingerprints per regime.
+# Observe live market (ATM vol, skew).
+# Score each regime via (eq. 52).
+# Fold into Bayesian regime-belief update → posterior 
+# Feed that updated, options-informed belief into the gamma-scalping/hedging decisions we discussed earlier — e.g., if 
+#   𝑝_3 (crisis) starts rising even though realized vol still looks like regime 1, 
+#   VRC can start adjusting exposure or hedges ahead of the realized-vol move, rather than reacting to it after the fact.
+
+# outputs a price for some assumed regime: V_i
+def vrc_pde_solver(s1, s2, s3, transition):
+    pass
+
+
+def regime_skew_iv(call, put, S, K, t, r, flag):
+    iv_c = implied_volatility(call, S, K, t, r, flag)
+    iv_P = implied_volatility(put, S, K, t, r, flag)
+
+
+def op_surf_likelihood(skew_k, skew_VRC, ATM_k, sigma_i_VRC, omega_ATM,omega_sk):
+    e_term = -(ATM_k - sigma_i_VRC)**2 / (2 * omega_ATM**2) - (skew_k - skew_VRC)**2 / (2 * omega_sk**2)
+    return np.exp(e_term)
+
